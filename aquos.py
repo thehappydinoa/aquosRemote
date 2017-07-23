@@ -16,7 +16,7 @@ class aquos():
 	password = ''
 	
 	def send_command(command):
-		if (tv_ip == '')
+		if (tv_ip == ''):
 			logging.critical("Critical exception: No IP set")
 			break
 		else:
