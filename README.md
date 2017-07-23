@@ -26,14 +26,14 @@ import aqous
 ```
 * Set IP
 
-```python
-aquos.set_ip("xxx.xxx.xxx.xxx")
+````python
+aquos.set_ip('xxx.xxx.xxx.xxx')
 ```
 
 * Set Login Info (If applicable)
 
 ```python
-aquos.set_login("username","password")
+aquos.set_login('username','password')
 ```
 
 * TV Commands
@@ -54,6 +54,19 @@ aquos.mute_on() # Turns mute on
 aquos.mute_off() # Turns mute off
 ```
 
+## Example
+
+An example program would look like:
+
+```python
+import aquos
+
+aquos.set_ip('IP.ADD.RESS.XX')
+aquos.set_login('username','password')
+aquos.tv_on()
+aquos.set_tv_volume(30)
+aquos.set_tv_input(1)
+```
 
 ## DEPENDENCIES
 
