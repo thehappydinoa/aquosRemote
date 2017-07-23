@@ -19,21 +19,26 @@ Python module for sending Remote Control Codes to your Sharp AQUOS Smart TV
 
 ## Usage
 
-** Import the module
+* Import the module
 
-'import aqous'
+```python
+import aqous
+```
+* Set IP
 
-** Set IP
+```python
+aquos.set_ip("xxx.xxx.xxx.xxx")
+```
 
-'aquos.set_ip("xxx.xxx.xxx.xxx")'
+* Set Login Info (If applicable)
 
-** Set Login Info (If applicable)
+```python
+aquos.set_login("username","password")
+```
 
-'aquos.set_login("username","password")'
+* TV Commands
 
-** TV Commands
-
-'''
+```python
 aquos.tv_on() # Will only work if you last turned off your tv with the aquos.tv_off() function 
 	
 aquos.tv_off() # Puts TV into standby mode
@@ -47,11 +52,8 @@ aquos.mute_toggle() # Toggles mute
 aquos.mute_on() # Turns mute on
 	
 aquos.mute_off() # Turns mute off
-'''
+```
 
-### Customize AQOUS.py
-
-When using aquos you can either manualully adjust the values in aquos.py or you can set them using the functions 
 
 ## DEPENDENCIES
 
