@@ -26,7 +26,7 @@ import aqous
 ```
 * Set IP
 
-````python
+```python
 aquos.set_ip('xxx.xxx.xxx.xxx')
 ```
 
