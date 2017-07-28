@@ -4,7 +4,7 @@
 |  
 '''
 
-import socket, logging, time
+import socket, logging, time, sys
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -18,7 +18,7 @@ class aquos():
 	def send_command(command):
 		if (tv_ip == ''):
 			logging.critical("Critical exception: No IP set")
-			break
+			sys.exit()
 		else:
 			try:
 				s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,7 +31,7 @@ class aquos():
 				return True
 			except Exception, e:
 				logging.critical("Critical exception: " + str(e))
-				break
+				sys.exit()
 		
 	def tv_off():
 		send_command("RSPW2   \r\rPOWR0   \r")
@@ -54,7 +54,7 @@ class aquos():
 		return True
 	
 	def set_tv_volume(level):
-		if (level <= 100 and level >= 0)
+		if (level <= 100 and level >= 0):
 			send_command("VOLM" + level + "   \r")
 		return True
 
@@ -62,14 +62,14 @@ class aquos():
 		send_command("IAVD" + input + "   \r")
 		return True
 		
-	def set_login(user,passwd)
+	def set_login(user,passwd):
 		if not login:
 			login = True
 			username = str(user)
 			password = str(passwd)
 		return True
 		
-	def set_ip(ip)
+	def set_ip(ip):
 		tv_ip = str(ip)
 		return True
 		
