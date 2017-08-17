@@ -39,7 +39,7 @@ aquos.set_login('username','password')
 * TV Commands
 
 ```python
-aquos.tv_on() # Will only work if you last turned off your tv with the aquos.tv_off() function 
+aquos.tv_on() # Turns on TV 
 	
 aquos.tv_off() # Puts TV into standby mode
 	
@@ -53,6 +53,7 @@ aquos.mute_on() # Turns mute on
 	
 aquos.mute_off() # Turns mute off
 ```
+Note: tv_on function will work only after you turn off tv using this function, then un-plug and re-plug-in the tv.
 
 ## Example
 
