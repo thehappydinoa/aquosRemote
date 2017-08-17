@@ -17,8 +17,7 @@ class aquos():
 	
 	def send_command(command):
 		if (tv_ip == ''):
-			logging.critical("Critical exception: No IP set")
-			sys.exit()
+			raise noIP('No IP set. Please set using set_ip(ip) to set ip.')
 		else:
 			try:
 				s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,8 +26,8 @@ class aquos():
 					s.send(username +"\r" + password +"\r")
 					logging.debug(s.recv(1024))
 				s.send(command)
-				logging.debug(s.recv(1024))
-				return True
+				msg = s.recv(1024)
+				return msg
 			except Exception, e:
 				logging.critical("Critical exception: " + str(e))
 				sys.exit()
