@@ -29,37 +29,30 @@ class aquos():
 				msg = s.recv(1024)
 				return msg
 			except Exception, e:
-				logging.critical("Critical exception: " + str(e))
-				sys.exit()
+				return "error"
 		
 	def tv_off():
-		send_command("RSPW2   \r\rPOWR0   \r")
-		return True
+		return send_command("RSPW2   \r\rPOWR0   \r")
 
 	def tv_on():
-		send_command("POWR1   \r")
-		return True
+		return send_command("POWR1   \r")
 
 	def mute_toggle():
-		send_command("MUTE0   \r")
-		return True
+		return send_command("MUTE0   \r")
 	
 	def mute_on():
-		send_command("MUTE1   \r")
-		return True
+		return send_command("MUTE1   \r")
 	
 	def mute_off():
-		send_command("MUTE2   \r")
-		return True
+		return send_command("MUTE2   \r")
 	
 	def set_tv_volume(level):
 		if (level <= 100 and level >= 0):
-			send_command("VOLM" + level + "   \r")
-		return True
+			return send_command("VOLM" + level + "   \r")
+		return "error"
 
 	def set_tv_input(input):
-		send_command("IAVD" + input + "   \r")
-		return True
+		return send_command("IAVD" + input + "   \r")
 		
 	def set_login(user,passwd):
 		if not login:
