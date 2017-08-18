@@ -34,7 +34,7 @@ def off():
 	return send_command("POWR0   \r")
 	
 def set_standbymode():
-	return send_command("RSPW2   \r\r")
+	return send_command("RSPW1   \r\r")
 
 def on():
 	return send_command("POWR1   \r")
@@ -74,11 +74,30 @@ def volume_up():
 	
 def volume_down():
 	return remote_number(32)
+	
+def volume_repeat(number):
+	x = 0
+	if number < 0:
+		while x > number:
+			volume_down()
+			x -= 1
+	elif number > 0:
+		while x < number:
+			volume_up()
+			x +=1
+	else: 
+		print "ERROR in volume_repeat"
+		return "error"
+	return "OK\r"
+	
 
-def set_tv_volume(level):
+def set_volume(level):
+	
 	if (level <= 100 and level >= 0):
-		return send_command("VOLM" + level + "   \r")
+		return send_command("VOLM" + str(level) + "   \r")
+	print "ERROR in set_volume"
 	return "error"
+	
 	
 def up():
 	return remote_number(41)
@@ -104,15 +123,17 @@ def netflix():
 	return remote_number(59)
 		
 def set_tv_input(input):
-	return send_command("IAVD" + input + "   \r")
+	return send_command("IAVD" + str(input) + "   \r")
 	
 def toggle_input():
 	return send_command("ITGD   \r")
 	
 def remote_number(number):
-	return send_command("RCKY" + number + "   \r"
-	
-def 
+	if number > 9:
+		number = str(number) + "  "
+	else:
+		number = str(number) + "   "
+	return send_command("RCKY" + number + "\r")
 	
 def set_login(user,passwd):
 	global username, password
@@ -137,6 +158,6 @@ if __name__ == "__main__":
 	aquos.set_login(username,password)
 	'''
 	aquos.tv_on()
-	aquos.set_tv_volume(30)
+	aquos.set_volume(30)
 	
 	
