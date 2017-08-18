@@ -105,3 +105,6 @@ This has been tested with Python 2.6 and 2.7.
 ## LICENSE
 
 MIT License
+
+## Resources
+* [AQUOS Sharp TV Guide](http://files.sharpusa.com/Downloads/ForHome/HomeEntertainment/LCDTVs/Manuals/mon_man_LC70LE847U_LC60LE847U_LC70LE745U_LC60LE745U_LC80LE844U.pdf)
