@@ -92,9 +92,15 @@ def volume_repeat(number):
 	
 
 def set_volume(level):
-	
+	if level > 9:
+		sLevel = str(level) + "  "
+	elif level <= 9:
+		sLevel = str(level) + "   "
+	elif level == 100:
+		sLevel = str(level) + " "
+		
 	if (level <= 100 and level >= 0):
-		return send_command("VOLM" + str(level) + "   \r")
+		return send_command("VOLM" + sLevel + "\r")
 	print "ERROR in set_volume"
 	return "error"
 	
@@ -122,7 +128,7 @@ def favorite_app(number):
 def netflix():
 	return remote_number(59)
 		
-def set_tv_input(input):
+def set_input(input):
 	return send_command("IAVD" + str(input) + "   \r")
 	
 def toggle_input():
