@@ -71,7 +71,7 @@ aqous.volume_up() # Turns volume up
 
 aqous.volume_down() # Turns volume down
 
-aquos.volume_repear(x) # Turns volume up x times up or down 
+aquos.volume_repeat(x) # Turns volume up x times up or down 
 	
 aquos.set_volume(xx) # Sets TV volume 0-100
 	
