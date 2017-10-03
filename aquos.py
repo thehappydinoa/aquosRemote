@@ -121,8 +121,8 @@ def favorite_app(number):
 def netflix():
 	return remote_number(59)
 
-def set_input(input):
-	return send_command("IAVD" + str(input) + "   \r")
+def set_input(input_name):
+	return send_command("IAVD" + str(input_name) + "   \r")
 
 def toggle_input():
 	return send_command("ITGD   \r")
