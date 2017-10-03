@@ -1,4 +1,5 @@
-# Sharp AQUOS Remote Python 📺
+
+# Sharp AQUOS Remote Python [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b8e284df50214da2a2f7e8a354dfc4d8)](https://www.codacy.com/app/thehappydinoa/aquos-module-Python?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=thehappydinoa/aquos-module-Python&amp;utm_campaign=Badge_Grade)
 
 Python module for sending Remote Control Codes to your Sharp AQUOS Smart TV
 
