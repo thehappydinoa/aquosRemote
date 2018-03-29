@@ -1,0 +1,4 @@
+*.pyc
+build/
+dist/
+aquosRemote.egg-info/
