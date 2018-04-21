@@ -35,7 +35,7 @@ class aquosTV(object):
             print(good + "Successfully sent '%s' to %s:%s" %
                   (str(command.strip()), self.ip, str(self.port)))
             return msg
-        except socket.error as e:
+        except socket.error:
             print(bad + "Error sending '%s' to '%s' @ %s:%s" %
                   (str(command.strip()), self.name, self.ip, self.port))
             # raise Exception("Error connecting to '%s' @ %s:%s" % (self.name, self.ip, self.port))
