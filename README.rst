@@ -28,9 +28,9 @@ Usage
 
 .. code:: python
 
-    from aquosRemote import aquosTV
+    from aquosRemote.aquos import aquosTV
 
-    aquos = aquosTV('TV', 'IP.ADD.RESS.XX')
+    aquos = aquosTV('IP.ADD.RESS.XX')
 
 
 -  TV Commands
@@ -91,17 +91,17 @@ An example program would look like:
 
 .. code:: python
 
-    from aquosRemote import aquosTV
+    from aquosRemote.aquos import aquosTV
 
-    aquos = aquosTV('TV', 'IP.ADD.RESS.XX') # Without Auth
-    aquos = aquosTV('TV', 'IP.ADD.RESS.XX', 'username','password') # With Auth
+    aquos = aquosTV('IP.ADD.RESS.XX') # Without Auth
+    aquos = aquosTV('IP.ADD.RESS.XX', 'username', 'password') # With Auth
     aquos.tv_on()
     ...
 
 DEPENDENCIES
 ------------
 
-This has been tested with Python 2.6 and 2.7.
+This has been tested with Python 2.6 and Python 3.6.
 
 LICENSE
 -------

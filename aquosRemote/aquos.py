@@ -1,44 +1,29 @@
 import socket
 from contextlib import closing
 
-important = "\033[35m[*]\033[1;m "
-hardreturn = "\n"
-info = "\033[1;33m[!]\033[1;m "
-que = "\033[1;34m[?]\033[1;m "
-bad = "\033[1;31m[-]\033[1;m "
-good = "\033[1;32m[+]\033[1;m "
-run = "\033[1;97m[~]\033[1;m "
-
 
 class aquosTV(object):
-    def __init__(self, name, ip, port=10002, username=None, password=None):
-        self.name = name
+    def __init__(self, ip, port=10002, username=None, password=None):
         self.ip = str(ip)
         self.port = int(port)
         self.username = username
         self.password = password
         if not self._check_ip():
-            print(bad + "Port %s is not open on %s" % (self.port, self.ip))
-            # raise Exception("Port %s is not open on %s" % (self.port, self.ip))
-        print(good + "Created '%s' on %s:%s" %
-              (self.name, self.ip, str(self.port)))
+            raise Exception("Port %s is not open on %s" % (self.port, self.ip))
 
     def send_command(self, command, byte_size=1024, timeout=3):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.ip, self.port))
             s.settimeout(timeout)
-            if (username and password):
+            if (self.username and self.password):
                 s.send(self.username + "\r" + self.password + "\r")
-            s.send(command)
+            s.send(command.encode('utf-8'))
             msg = s.recv(byte_size)
-            print(good + "Successfully sent '%s' to %s:%s" %
-                  (str(command.strip()), self.ip, str(self.port)))
             return msg
         except socket.error:
-            print(bad + "Error sending '%s' to '%s' @ %s:%s" %
-                  (str(command.strip()), self.name, self.ip, self.port))
-            # raise Exception("Error connecting to '%s' @ %s:%s" % (self.name, self.ip, self.port))
+            raise Exception("Error connecting to %s:%s" %
+                            (self.ip, self.port))
 
     def off(self):
         return self.send_command("POWR0   \r")
@@ -155,8 +140,11 @@ class aquosTV(object):
 
 if __name__ == "__main__":
     # Example
-    # aquos = aquosTV("Basement TV", "192.168.1.12")
-    aquos = aquosTV("Test TV", "192.168.43.200")
+    # aquos = aquosTV("Basement TV", "192.168.1.2")
+    from time import sleep
+    aquos = aquosTV("192.168.1.2")
     aquos.on()
+    sleep(1)
     aquos.set_volume(30)
+    sleep(1)
     aquos.off()

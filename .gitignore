@@ -1,4 +1,6 @@
+__pychache__/
 *.pyc
 build/
 dist/
 aquosRemote.egg-info/
+venv/
