@@ -41,7 +41,7 @@ Usage
 
     aquos.off() # Puts TV into standby mode
 
-    aqous.set_standbymode # Enables standby mode
+    aqous.set_standbymode() # Enables standby mode
 
     aquos.play() # Play button (⏯)
 
@@ -81,8 +81,16 @@ Usage
 
     aquos.set_input(x) # Sets TV input to input x
 
-Note: tv\_on function will work only after you turn off tv using this
-function, then un-plug and re-plug-in the tv.
+    aquos.get_device_name() # Gets TV device name
+
+    aquos.get_model_name() # Gets TV model name
+
+    aquos.get_software_version() # Gets TV software version
+
+    aquos.get_ip_protocol_version() # Gets TV ip protocol
+
+Note: on function will work only after you use the setup=True argument or after
+you turn off tv using this function, then un-plug and re-plug-in the tv.
 
 Example
 -------
@@ -93,8 +101,9 @@ An example program would look like:
 
     from aquosRemote.aquos import aquosTV
 
-    aquos = aquosTV('IP.ADD.RESS.XX') # Without Auth
-    aquos = aquosTV('IP.ADD.RESS.XX', 'username', 'password') # With Auth
+    aquos = aquosTV('IP.ADD.RESS.XX') # Without auth and setup
+    aquos = aquosTV('IP.ADD.RESS.XX', setup=True) # With setup
+    aquos = aquosTV('IP.ADD.RESS.XX', 'username', 'password') # With auth
     aquos.tv_on()
     ...
 
