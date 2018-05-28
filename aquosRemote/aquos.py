@@ -3,20 +3,29 @@ from time import sleep
 from contextlib import closing
 
 
+class aquosException(Exception):
+    pass
+
+
 class aquosTV(object):
-    def __init__(self, ip, port=10002, username=None, password=None, setup=False):
+    def __init__(self, ip, **kwargs):
         self.ip = str(ip)
-        self.port = int(port)
-        self.auth = (username and password)
-        self.username = username
-        self.password = password
+        self.port = int(kwargs.get("port", 10002))
+        self.username = kwargs.get("username", None)
+        self.password = kwargs.get("password", None)
+        self.auth = (self.username and self.password)
+        self.setup = kwargs.get("setup", False)
         if not self._check_ip():
-            if setup:
-                self.on()
-                sleep(1)
-                self.set_standbymode()
-                self.off()
-            raise Exception("Port %s is not open on %s" % (self.port, self.ip))
+            if self.setup:
+                self._setup()
+            raise aquosException("Port %s is not open on %s" %
+                                 (self.port, self.ip))
+
+    def _setup(self):
+        self.on()
+        sleep(1)
+        self.set_standbymode()
+        self.off()
 
     def _check_ip(self):
         with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
@@ -30,27 +39,26 @@ class aquosTV(object):
             if number.isdigit():
                 new_command = command[:4] + self.format_number(number)
             new_command += "\r"
-            return new_command
-        return command
+            return new_command.encode('utf-8')
+        return command.encode('utf-8')
 
     def format_number(self, number):
         return "% 4d" % int(number)
 
     def send_command(self, command, byte_size=1024, timeout=3):
         command = self.format_command(command)
-        # print(command)
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.ip, self.port))
             s.settimeout(timeout)
             if (self.auth):
                 s.send(self.username + "\r" + self.password + "\r")
-            s.send(command.encode('utf-8'))
+            s.send(command)
             msg = s.recv(byte_size)
             return msg.strip()
         except socket.error:
-            raise Exception("Error connecting to %s:%s" %
-                            (self.ip, self.port))
+            raise aquosException("Error sending command '%s' to %s:%s" %
+                                 (command, self.ip, self.port))
 
     def remote_number(self, number):
         number = self.format_number(number)
@@ -102,17 +110,15 @@ class aquosTV(object):
         return self.remote_number(32)
 
     def volume_repeat(self, number):
+        negative = (number < 0)
+        number = abs(number)
         x = 0
-        if number < 0:
-            while x > number:
+        while x < number:
+            if negative:
                 self.volume_down()
-                x -= 1
-        elif number > 0:
-            while x < number:
+            else:
                 self.volume_up()
-                x += 1
-        else:
-            return "ERR"
+            x += 1
         return "OK"
 
     def set_volume(self, level):
@@ -162,17 +168,17 @@ class aquosTV(object):
     def get_ip_protocol_version(self):
         return self.send_command("IPPV1")
 
+    def get_info(self):
+        return "Device Name: %s \nModel Name: %s \nSoftware Version: %s \nIP Protocol: %s" % (
+            self.get_device_name(), self.get_model_name(), self.get_software_version(), self.get_ip_protocol_version())
+
 
 if __name__ == "__main__":
-    # Example
-    # aquos = aquosTV("192.168.1.2")
+    # Example/Test
     aquos = aquosTV("192.168.1.2", setup=True)
     aquos.on()
     sleep(1)
-    # print(aquos.get_device_name())
-    # print(aquos.get_model_name())
-    # print(aquos.get_software_version())
-    # print(aquos.get_ip_protocol_version())
+    # print(aquos.get_info())
     aquos.set_volume(30)
     sleep(1)
     aquos.off()
