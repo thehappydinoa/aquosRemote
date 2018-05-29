@@ -1,5 +1,5 @@
-`Sharp AQUOS Remote Python <https://thehappydinoa.github.io/aquosRemote/>`__
-============================================================================
+Sharp AQUOS Remote Python
+=========================
 
 Python module for sending Remote Control Codes to your Sharp AQUOS Smart
 TV
@@ -89,6 +89,8 @@ Usage
 
     aquos.get_ip_protocol_version() # Gets TV ip protocol
 
+    aquos.get_info() # Returns all above info into a pretty string
+
 Note: on function will work only after you use the setup=True argument or after
 you turn off tv using this function, then un-plug and re-plug-in the tv.
 
@@ -122,6 +124,3 @@ Resources
 
 -  `AQUOS Sharp TV
    Guide <http://files.sharpusa.com/Downloads/ForHome/HomeEntertainment/LCDTVs/Manuals/mon_man_LC70LE847U_LC60LE847U_LC70LE745U_LC60LE745U_LC80LE844U.pdf>`__
-
-.. |Codacy Badge| image:: https://api.codacy.com/project/badge/Grade/b8e284df50214da2a2f7e8a354dfc4d8
-   :target: https://www.codacy.com/app/thehappydinoa/aquos-module-Python?utm_source=github.com&utm_medium=referral&utm_content=thehappydinoa/aquos-module-Python&utm_campaign=Badge_Grade
