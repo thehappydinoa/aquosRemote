@@ -97,6 +97,11 @@ class aquosTV(object):
     def toggle_mute(self):
         return self.send_command("MUTE0")
 
+    def set_mute(self, state):
+        if state:
+            return self.mute_on()
+        return self.mute_off()
+
     def mute_on(self):
         return self.send_command("MUTE1")
 

@@ -75,6 +75,8 @@ Usage
 
     aquos.toggle_mute() # Toggles mute
 
+    aqous.set_mute(boolean) # Sets mute to boolean
+
     aquos.mute_on() # Turns mute on
 
     aquos.mute_off() # Turns mute off
