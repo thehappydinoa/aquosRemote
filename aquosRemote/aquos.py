@@ -157,8 +157,7 @@ class aquosTV(object):
         return self.remote_number(59)
 
     def set_input(self, input_number):
-        input_number = sub("\D", "", input_number.strip()
-        return self.send_command("IAVD" + str(input_number))
+        return self.send_command("IAVD" + str(sub("\D", "", input_number.strip())))
 
     def toggle_input(self):
         return self.send_command("ITGD1")
@@ -182,7 +181,7 @@ class aquosTV(object):
 
 if __name__ == "__main__":
     # Example/Test
-    aquos=aquosTV("192.168.1.2", setup=True)
+    aquos = aquosTV("192.168.1.2", setup=True)
     aquos.on()
     sleep(1)
     # print(aquos.get_info())
