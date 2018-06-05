@@ -28,9 +28,9 @@ Usage
 
 .. code:: python
 
-    from aquosRemote.aquos import aquosTV
+    from aquosRemote.aquos import AquosTV
 
-    aquos = aquosTV('IP.ADD.RESS.XX')
+    aquos = AquosTV('IP.ADD.RESS.XX')
 
 
 -  TV Commands
@@ -42,6 +42,8 @@ Usage
     aquos.off() # Puts TV into standby mode
 
     aqous.set_standbymode() # Enables standby mode
+
+    aqous.delay() # Waits a certian time 
 
     aquos.play() # Play button (⏯)
 
@@ -65,6 +67,12 @@ Usage
 
     aqous.right() # Right button (►)
 
+    aqous.enter() # Enter button
+
+    aqous.remote_return() # Stop button
+
+    aqous.exit() # Exit button
+
     aqous.volume_up() # Turns volume up
 
     aqous.volume_down() # Turns volume down
@@ -82,6 +90,12 @@ Usage
     aquos.mute_off() # Turns mute off
 
     aquos.set_input(x) # Sets TV input to input x
+
+    aquos.toggle_3d() # Toggles 3D
+
+    aquos.netflix() # Opens Netflix
+
+    aquos.smart_central() # Opens Smart Central
 
     aquos.get_device_name() # Gets TV device name
 
@@ -103,12 +117,12 @@ An example program would look like:
 
 .. code:: python
 
-    from aquosRemote.aquos import aquosTV
+    from aquosRemote.aquos import AquosTV
 
-    aquos = aquosTV('IP.ADD.RESS.XX') # Without auth and setup
-    aquos = aquosTV('IP.ADD.RESS.XX', setup=True) # With setup
-    aquos = aquosTV('IP.ADD.RESS.XX', 'username', 'password') # With auth
-    aquos.tv_on()
+    aquos = AquosTV('IP.ADD.RESS.XX') # Without auth and setup
+    aquos = AquosTV('IP.ADD.RESS.XX', setup=True) # With setup
+    aquos = AquosTV('IP.ADD.RESS.XX', 'username', 'password') # With auth
+    aquos.on()
     ...
 
 DEPENDENCIES

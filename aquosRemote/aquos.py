@@ -8,7 +8,7 @@ class aquosException(Exception):
     pass
 
 
-class aquosTV(object):
+class AquosTV(object):
     def __init__(self, ip, **kwargs):
         self.ip = str(ip)
         self.port = int(kwargs.get("port", 10002))
@@ -24,14 +24,17 @@ class aquosTV(object):
 
     def _setup(self):
         self.on()
-        sleep(1)
+        self.delay()
         self.set_standbymode()
         self.off()
 
     def _check_ip(self):
         with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
             sock.settimeout(3)
-            return (sock.connect_ex((self.ip, self.port)) == 0)
+            return sock.connect_ex((self.ip, self.port)) == 0
+
+    def delay(self):
+        sleep(1)
 
     def format_command(self, command):
         if not command.endswith("\r"):
@@ -52,7 +55,7 @@ class aquosTV(object):
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.ip, self.port))
             s.settimeout(timeout)
-            if (self.auth):
+            if self.auth:
                 s.send(self.username + "\r" + self.password + "\r")
             s.send(command)
             msg = s.recv(byte_size)
@@ -68,32 +71,32 @@ class aquosTV(object):
     def off(self):
         return self.send_command("POWR0")
 
-    def set_standbymode(self, mode=1):
-        return self.send_command("RSPW" + self.format_number(mode))
-
     def on(self):
         return self.send_command("POWR1")
 
-    def play(self):
-        return self.remote_number(16)
-
-    def pause(self):
-        return self.remote_number(16)
-
-    def stop(self):
-        return self.remote_number(20)
+    def set_standbymode(self, mode=1):
+        return self.send_command("RSPW" + self.format_number(mode))
 
     def rewind(self):
         return self.remote_number(15)
 
+    def play(self):
+        return self.remote_number(16)
+
     def fast_forward(self):
         return self.remote_number(17)
 
-    def skip_forward(self):
-        return self.remote_number(21)
+    def pause(self):
+        return self.remote_number(18)
 
     def skip_back(self):
         return self.remote_number(19)
+
+    def stop(self):
+        return self.remote_number(20)
+
+    def skip_forward(self):
+        return self.remote_number(21)
 
     def toggle_mute(self):
         return self.send_command("MUTE0")
@@ -133,17 +136,29 @@ class aquosTV(object):
             return self.send_command("VOLM" + level)
         return "ERR"
 
+    def smart_central(self):
+        return self.remote_number(39)
+
+    def enter(self):
+        return self.remote_number(40)
+
     def up(self):
         return self.remote_number(41)
-
-    def right(self):
-        return self.remote_number(44)
 
     def down(self):
         return self.remote_number(42)
 
     def left(self):
         return self.remote_number(43)
+
+    def right(self):
+        return self.remote_number(44)
+
+    def remote_return(self):
+        return self.remote_number(45)
+
+    def exit(self):
+        return self.remote_number(46)
 
     def favorite_app(self, number):
         if number == 1:
@@ -152,6 +167,9 @@ class aquosTV(object):
             return self.remote_number(56)
         elif number == 2:
             return self.remote_number(57)
+
+    def toggle_3d(self):
+        return self.remote_number(58)
 
     def netflix(self):
         return self.remote_number(59)
@@ -181,10 +199,10 @@ class aquosTV(object):
 
 if __name__ == "__main__":
     # Example/Test
-    aquos = aquosTV("192.168.1.2", setup=True)
+    aquos = AquosTV("192.168.1.2", setup=True)
     aquos.on()
-    sleep(1)
+    aquos.delay()
     # print(aquos.get_info())
     aquos.set_volume(30)
-    sleep(1)
+    aquos.delay()
     aquos.off()
