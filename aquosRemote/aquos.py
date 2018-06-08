@@ -4,7 +4,7 @@ from time import sleep
 from contextlib import closing
 
 
-class aquosException(Exception):
+class AquosException(Exception):
     pass
 
 
@@ -19,7 +19,7 @@ class AquosTV(object):
         if not self._check_ip():
             if self.setup:
                 self._setup()
-            raise aquosException("Port %s is not open on %s" %
+            raise AquosException("Port %s is not open on %s" %
                                  (self.port, self.ip))
 
     def _setup(self):
@@ -61,7 +61,7 @@ class AquosTV(object):
             msg = s.recv(byte_size)
             return msg.strip()
         except socket.error:
-            raise aquosException("Error sending command '%s' to %s:%s" %
+            raise AquosException("Error sending command '%s' to %s:%s" %
                                  (command, self.ip, self.port))
 
     def remote_number(self, number):
