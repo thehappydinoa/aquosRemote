@@ -1,7 +1,7 @@
 import socket
+from contextlib import closing
 from re import sub
 from time import sleep
-from contextlib import closing
 
 
 class AquosException(Exception):
@@ -16,6 +16,7 @@ class AquosTV(object):
         self.password = kwargs.get("password", None)
         self.auth = (self.username and self.password)
         self.setup = kwargs.get("setup", False)
+        self.verbose = kwargs.get("verbose", False)
         if not self._check_ip():
             if self.setup:
                 self._setup()
@@ -58,8 +59,11 @@ class AquosTV(object):
             if self.auth:
                 s.send(self.username + "\r" + self.password + "\r")
             s.send(command)
-            msg = s.recv(byte_size)
-            return msg.strip()
+            msg = s.recv(byte_size).strip()
+            if self.verbose:
+                print("Sent: %s" % command)
+                print("Received: %s" % msg)
+            return msg
         except socket.error:
             raise AquosException("Error sending command '%s' to %s:%s" %
                                  (command, self.ip, self.port))
@@ -199,7 +203,7 @@ class AquosTV(object):
 
 if __name__ == "__main__":
     # Example/Test
-    aquos = AquosTV("192.168.1.2", setup=True)
+    aquos = AquosTV("192.168.1.2", setup=True, verbose=True)
     aquos.on()
     aquos.delay()
     # print(aquos.get_info())
