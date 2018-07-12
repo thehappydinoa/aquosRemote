@@ -8,7 +8,14 @@ class AquosException(Exception):
     pass
 
 
+class VolumeOutOfRange(AquosException):
+    pass
+
+
 class AquosTV(object):
+    MAX_VOLUME = 60
+    MIN_VOLUME = 0
+
     def __init__(self, ip, **kwargs):
         self.ip = str(ip)
         self.port = int(kwargs.get("port", 10002))
@@ -34,8 +41,8 @@ class AquosTV(object):
             sock.settimeout(3)
             return sock.connect_ex((self.ip, self.port)) == 0
 
-    def delay(self):
-        sleep(1)
+    def delay(self, value=1):
+        sleep(value)
 
     def format_command(self, command):
         if not command.endswith("\r"):
@@ -52,21 +59,23 @@ class AquosTV(object):
 
     def send_command(self, command, byte_size=1024, timeout=3):
         command = self.format_command(command)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((self.ip, self.port))
-            s.settimeout(timeout)
+            sock.connect((self.ip, self.port))
+            sock.settimeout(timeout)
             if self.auth:
-                s.send(self.username + "\r" + self.password + "\r")
-            s.send(command)
-            msg = s.recv(byte_size).strip()
+                sock.send(self.username + "\r" + self.password + "\r")
+            sock.send(command)
+            msg = sock.recv(byte_size).strip()
             if self.verbose:
                 print("Sent: %s" % command)
                 print("Received: %s" % msg)
             return msg
-        except socket.error:
+        except:
             raise AquosException("Error sending command '%s' to %s:%s" %
                                  (command, self.ip, self.port))
+        finally:
+            sock.close()
 
     def remote_number(self, number):
         number = self.format_number(number)
@@ -132,13 +141,15 @@ class AquosTV(object):
             else:
                 self.volume_up()
             x += 1
+            self.delay(value=0.1)
         return "OK"
 
     def set_volume(self, level):
-        if (level <= 60 and level >= 0):
+        if (level <= self.MAX_VOLUME and level >= self.MIN_VOLUME):
             level = self.format_number(level)
             return self.send_command("VOLM" + level)
-        return "ERR"
+        raise VolumeOutOfRange("%d is not between %d and %d" % (
+            level, self.MIN_VOLUME, self.MAX_VOLUME))
 
     def smart_central(self):
         return self.remote_number(39)
