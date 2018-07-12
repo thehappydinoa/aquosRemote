@@ -43,7 +43,7 @@ Usage
 
     aqous.set_standbymode() # Enables standby mode
 
-    aqous.delay() # Waits a certian time 
+    aqous.delay() # Waits a certian time
 
     aquos.play() # Play button (⏯)
 
@@ -122,6 +122,7 @@ An example program would look like:
     aquos = AquosTV('IP.ADD.RESS.XX') # Without auth and setup
     aquos = AquosTV('IP.ADD.RESS.XX', setup=True) # With setup
     aquos = AquosTV('IP.ADD.RESS.XX', 'username', 'password') # With auth
+    aquos = AquosTV('IP.ADD.RESS.XX', verbose=True) # With verbose
     aquos.on()
     ...
 
