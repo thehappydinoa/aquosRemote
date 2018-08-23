@@ -78,8 +78,7 @@ class AquosTV(object):
             sock.close()
 
     def remote_number(self, number):
-        number = self.format_number(number)
-        return self.send_command("RCKY" + number)
+        return self.send_command("RCKY" + self.format_number(number))
 
     def off(self):
         return self.send_command("POWR0")
@@ -89,6 +88,12 @@ class AquosTV(object):
 
     def set_standbymode(self, mode=1):
         return self.send_command("RSPW" + self.format_number(mode))
+
+    def toggle_power(self):
+        return self.remote_number(12)
+
+    def toggle_power_source(self):
+        return self.remote_number(14)
 
     def rewind(self):
         return self.remote_number(15)
@@ -112,12 +117,8 @@ class AquosTV(object):
         return self.remote_number(21)
 
     def toggle_mute(self):
+        #return self.remote_number(31)
         return self.send_command("MUTE0")
-
-    def set_mute(self, state):
-        if state:
-            return self.mute_on()
-        return self.mute_off()
 
     def mute_on(self):
         return self.send_command("MUTE1")
@@ -125,11 +126,16 @@ class AquosTV(object):
     def mute_off(self):
         return self.send_command("MUTE2")
 
-    def volume_up(self):
-        return self.remote_number(33)
+    def set_mute(self, state):
+        if state:
+            return self.mute_on()
+        return self.mute_off()
 
     def volume_down(self):
         return self.remote_number(32)
+
+    def volume_up(self):
+        return self.remote_number(33)
 
     def volume_repeat(self, number):
         negative = (number < 0)

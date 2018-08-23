@@ -10,7 +10,7 @@ with open(path.join(here, "README.rst"), encoding="utf-8") as f:
 
 setup(
     name="aquosRemote",
-    version="1.4.6",
+    version="1.4.7",
     description="A small Python module for sending Remote Control Codes to your Sharp AQUOS Smart TV",
     long_description=long_description,
     url="https://github.com/thehappydinoa/aquosRemote",

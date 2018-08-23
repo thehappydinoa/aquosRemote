@@ -43,6 +43,10 @@ Usage
 
     aqous.set_standbymode() # Enables standby mode
 
+    aquos.toggle_power() # Toggle power
+
+    aquos.toggle_power_source() # Toggle power source
+
     aqous.delay() # Waits a certian time
 
     aquos.play() # Play button (⏯)
