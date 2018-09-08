@@ -117,7 +117,7 @@ class AquosTV(object):
         return self.remote_number(21)
 
     def toggle_mute(self):
-        #return self.remote_number(31)
+        # return self.remote_number(31)
         return self.send_command("MUTE0")
 
     def mute_on(self):
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     aquos = AquosTV("192.168.1.2", setup=True, verbose=True)
     aquos.on()
     aquos.delay()
-    # print(aquos.get_info())
-    aquos.set_volume(30)
+    print(aquos.get_info())
+    # aquos.set_volume(30)
     aquos.delay()
     aquos.off()

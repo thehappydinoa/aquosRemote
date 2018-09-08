@@ -5,3 +5,5 @@ dist/
 aquosRemote.egg-info/
 venv/
 .pytest_cache/
+
+\.idea/
