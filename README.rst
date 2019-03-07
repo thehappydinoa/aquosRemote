@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fthehappydinoa%2FaquosRemote.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fthehappydinoa%2FaquosRemote?ref=badge_shield)
+
 Sharp AQUOS Remote Python
 =========================
 
@@ -145,3 +147,7 @@ Resources
 
 -  `AQUOS Sharp TV
    Guide <http://files.sharpusa.com/Downloads/ForHome/HomeEntertainment/LCDTVs/Manuals/mon_man_LC70LE847U_LC60LE847U_LC70LE745U_LC60LE745U_LC80LE844U.pdf>`__
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fthehappydinoa%2FaquosRemote.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fthehappydinoa%2FaquosRemote?ref=badge_large)
