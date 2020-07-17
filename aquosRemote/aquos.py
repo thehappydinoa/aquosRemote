@@ -1,7 +1,7 @@
 import socket
-from contextlib import closing
 from re import sub
 from time import sleep
+from contextlib import closing
 
 
 class AquosException(Exception):
@@ -12,23 +12,23 @@ class VolumeOutOfRange(AquosException):
     pass
 
 
-class AquosTV(object):
+class AquosTV():
     MAX_VOLUME = 60
     MIN_VOLUME = 0
 
-    def __init__(self, ip, **kwargs):
-        self.ip = str(ip)
-        self.port = int(kwargs.get("port", 10002))
-        self.username = kwargs.get("username", None)
-        self.password = kwargs.get("password", None)
+    def __init__(self, ip: str, port: int = 10002, username: str = "", password: str = "", setup: bool = False, verbose: bool = False):
+        self.ip_address = str(ip)
+        self.port = int(port)
+        self.username = username
+        self.password = password
         self.auth = (self.username and self.password)
-        self.setup = kwargs.get("setup", False)
-        self.verbose = kwargs.get("verbose", False)
+        self.setup = setup
+        self.verbose = verbose
         if not self._check_ip():
             if self.setup:
                 self._setup()
             raise AquosException("Port %s is not open on %s" %
-                                 (self.port, self.ip))
+                                 (self.port, self.ip_address))
 
     def _setup(self):
         self.on()
@@ -39,12 +39,17 @@ class AquosTV(object):
     def _check_ip(self):
         with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
             sock.settimeout(3)
-            return sock.connect_ex((self.ip, self.port)) == 0
+            return sock.connect_ex((self.ip_address, self.port)) == 0
 
-    def delay(self, value=1):
+    @staticmethod
+    def delay(value: int = 1):
         sleep(value)
 
-    def format_command(self, command):
+    @staticmethod
+    def format_number(number: int):
+        return "% 4d" % int(number)
+
+    def format_command(self, command: str):
         if not command.endswith("\r"):
             new_command = command
             number = command[4:]
@@ -54,14 +59,11 @@ class AquosTV(object):
             return new_command.encode('utf-8')
         return command.encode('utf-8')
 
-    def format_number(self, number):
-        return "% 4d" % int(number)
-
-    def send_command(self, command, byte_size=1024, timeout=3):
+    def send_command(self, command: str, byte_size: int = 1024, timeout: int = 3):
         command = self.format_command(command)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            sock.connect((self.ip, self.port))
+            sock.connect((self.ip_address, self.port))
             sock.settimeout(timeout)
             if self.auth:
                 sock.send(self.username + "\r" + self.password + "\r")
@@ -73,11 +75,11 @@ class AquosTV(object):
             return msg
         except:
             raise AquosException("Error sending command '%s' to %s:%s" %
-                                 (command, self.ip, self.port))
+                                 (command, self.ip_address, self.port))
         finally:
             sock.close()
 
-    def remote_number(self, number):
+    def remote_number(self, number: int):
         return self.send_command("RCKY" + self.format_number(number))
 
     def off(self):
@@ -86,7 +88,7 @@ class AquosTV(object):
     def on(self):
         return self.send_command("POWR1")
 
-    def set_standbymode(self, mode=1):
+    def set_standbymode(self, mode: int = 1):
         return self.send_command("RSPW" + self.format_number(mode))
 
     def toggle_power(self):
@@ -126,7 +128,7 @@ class AquosTV(object):
     def mute_off(self):
         return self.send_command("MUTE2")
 
-    def set_mute(self, state):
+    def set_mute(self, state: bool):
         if state:
             return self.mute_on()
         return self.mute_off()
@@ -137,7 +139,7 @@ class AquosTV(object):
     def volume_up(self):
         return self.remote_number(33)
 
-    def volume_repeat(self, number):
+    def volume_repeat(self, number: int):
         negative = (number < 0)
         number = abs(number)
         x = 0
@@ -150,7 +152,7 @@ class AquosTV(object):
             self.delay(value=0.1)
         return "OK"
 
-    def set_volume(self, level):
+    def set_volume(self, level: int):
         if (level <= self.MAX_VOLUME and level >= self.MIN_VOLUME):
             level = self.format_number(level)
             return self.send_command("VOLM" + level)
@@ -181,12 +183,12 @@ class AquosTV(object):
     def exit(self):
         return self.remote_number(46)
 
-    def favorite_app(self, number):
+    def favorite_app(self, number: int):
         if number == 1:
             return self.remote_number(55)
-        elif number == 2:
+        if number == 2:
             return self.remote_number(56)
-        elif number == 2:
+        if number == 2:
             return self.remote_number(57)
 
     def toggle_3d(self):
@@ -196,7 +198,7 @@ class AquosTV(object):
         return self.remote_number(59)
 
     def set_input(self, input_number):
-        return self.send_command("IAVD" + str(sub("\D", "", input_number.strip())))
+        return self.send_command("IAVD" + str(sub(r"\D", "", input_number.strip())))
 
     def toggle_input(self):
         return self.send_command("ITGD1")
@@ -216,14 +218,3 @@ class AquosTV(object):
     def get_info(self):
         return "Device Name: %s \nModel Name: %s \nSoftware Version: %s \nIP Protocol: %s" % (
             self.get_device_name(), self.get_model_name(), self.get_software_version(), self.get_ip_protocol_version())
-
-
-if __name__ == "__main__":
-    # Example/Test
-    aquos = AquosTV("192.168.1.2", setup=True, verbose=True)
-    aquos.on()
-    aquos.delay()
-    print(aquos.get_info())
-    # aquos.set_volume(30)
-    aquos.delay()
-    aquos.off()
