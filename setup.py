@@ -6,13 +6,13 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 NAME = 'aquosRemote'
-DESCRIPTION = 'My short description for my project.'
+DESCRIPTION = 'A small Python module for sending Remote Control Codes to your Sharp AQUOS Smart TV'
 KEYWORDS = 'aquos tv remote'
 URL = 'https://github.com/thehappydinoa/aquosRemote'
 EMAIL = 'thehappydinoa@gmail.com'
 AUTHOR = 'thehappydinoa'
 REQUIRES_PYTHON = '>=3.5.0'
-VERSION = '1.5.0'
+VERSION = '1.5.1'
 
 REQUIRED = []
 
